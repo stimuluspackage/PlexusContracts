@@ -6,7 +6,7 @@
 
 The smart contracts included in the `/contracts` directory are solidity-based contracts which make up the Plexus Ecosystem v.0.1. These contracts all center around the `core.sol` contract. The primary user benefit of these contracts is to:
 
-- Deposit ERC-20 tokens into the Plexus ecosystem, either to collect interest from Aave or to be sent to a Yield Farm. Aave is pretty low risk, which staking FARM tokens on the Harvest.Finance platform is a bit riskier.
+- Deposit ERC-20 tokens into the Plexus ecosystem, either to collect interest from Aave or to be sent to a Yield Farm. Aave is pretty low risk, while staking FARM tokens on the Harvest.Finance platform is a bit riskier.
 
 - Earn Plex ERC-20 Token Rewards from leveraging the Plexus ecosystem to deposit/stake (The token is to be created later and will be generated using Aragon as it will also serve as a governance token. However, the token itself is outside the scope. A Placeholder token can be used for examples). One could simply just stake directly on Harvest.Finance or Pickle; however, then the user would not earn PLEX as well.
 
@@ -23,7 +23,9 @@ The smart contracts included in the `/contracts` directory are solidity-based co
 
 ## Important Design Decision Notes
 
-1. Each contract in the contract folder contains all its needed interfaces and libraries in single-file format (each of the main 7 contracts are like this). This design decision was made for 2 reasons: 1) Etherscan sometimes has issues with various compiler versions verifying the contract code when the files are split up. Etherscan, when there is an issue, can be pretty slow to fix these issues, and to prevent this complexity, single file formats were chosen. Additionally, even when importing files, the Ethereum chain sees the code the same as having all of the content on a single file (libs, interfaces, etc), therefore for transparency for audits all of this is included. 2) When importing interfaces there are often many functions or events from another contract that will not be used in the deployed contract, so it's more expensive generally to import the same libraries for all files. While this design decision is not as popular, the utility of it, also for security purposes (something being hidden in all the imports that is a vulnerability), outweighs the pretty style of the typical import syntax.
+1. Each contract in the contract folder contains all its needed interfaces and libraries in single-file format (each of the main 7 contracts are like this). This design decision was made for 2 reasons: 
+    1) Etherscan sometimes has issues with various compiler versions verifying the contract code when the files are split up. Etherscan, when there is an issue, can be pretty slow to fix these issues, and to prevent this complexity, single file formats were chosen. Additionally, even when importing files, the Ethereum chain sees the code the same as having all of the content on a single file (libs, interfaces, etc), therefore for transparency for audits all of this is included. 
+    2) When importing interfaces there are often many functions or events from another contract that will not be used in the deployed contract, so it's more expensive generally to import the same libraries for all files. While this design decision is not as popular, the utility of it, also for security purposes (something being hidden in all the imports that is a vulnerability), outweighs the pretty style of the typical import syntax.
 
 
 2. Delegate calls were not used. Instead instances of third-part contracts are used to make the platform more modular and containerized.
@@ -73,7 +75,7 @@ This contract is pretty robust but fairly simple in use. It can convert a token 
 
 6. `tier2[...].sol` Files (FARM example: https://etherscan.io/address/0x618fDCFF3Cca243c12E6b508D9d8a6fF9018325c#code)
 
-These contracts generally do not store user funds, but act as the owner of tokens when they are sent to a third-party farm. When a user requests to withdraw their tokens, all the tokens are withdrawn from a given farm, and the users' proportion is calculated and sent, and the remainder of the funds are re-staked. The platform is designed this way for simplicity, but also becuase some farms such as Harvest.Finance do not have paramters to unstake a small amount of tokens, but only allows the unstaking of all. To keep thing constant and allow these to be easily replicated across any yield farming platform with only the requirement of a few parameter and interface changes, this design choice was made. If there are any big vulnerabilities, these are the contracts to really look out for for possible economic attacks.
+These contracts generally do not store user funds, but act as the owner of tokens when they are sent to a third-party farm. When a user requests to withdraw their tokens, all the tokens are withdrawn from a given farm, and the users' proportion is calculated and sent, and the remainder of the funds are re-staked. The platform is designed this way for simplicity, but also because some farms such as Harvest.Finance do not have parameters to unstake a small amount of tokens, but only allows the unstaking of all. To keep thing constant and allow these to be easily replicated across any yield farming platform with only the requirement of a few parameter and interface changes, this design choice was made. If there are any big vulnerabilities, these are the contracts to really look out for possible economic attacks.
 
 
 ## Have questions or recommendations?

@@ -147,9 +147,6 @@ function updateATokens(address tokenAddress, address aTokenAddress) public onlyA
 
   function deposit(address tokenAddress, uint256 amount, address onBehalfOf) payable onlyOwner public returns (bool){
 
-
-
-
         ERC20 thisToken = ERC20(tokenAddress);
         require(thisToken.transferFrom(msg.sender, address(this), amount), "Not enough tokens to transferFrom or no approval");
 
